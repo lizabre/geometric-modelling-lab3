@@ -1,0 +1,9 @@
+{
+  "name": "geometric-modeling-lab3-bezier-bear",
+  "version": "1.0.0",
+  "description": "Lab 3 — Криволінійний контур із кубічних кривих Безьє (варіант 28, ведмедик). Three.js рендер, формули Безьє написані вручну.",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview" },
+  "dependencies": { "three": "^0.169.0" },
+  "devDependencies": { "vite": "^5.4.0" }
+}

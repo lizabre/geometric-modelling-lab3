@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Лабораторна робота №3 — Криві Безьє (Варіант 28)</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="stage" class="stage"></div>
+
+    <div class="panel">
+      <h1>Криві Безьє 3-го порядку</h1>
+      <div class="sub">Лаб. №3 · варіант 28 · ведмедик · Three.js, формули вручну</div>
+
+      <div class="formula">
+        <b>B(t)</b> = Σ wᵢ·bᵢ(t)·Pᵢ / Σ wᵢ·bᵢ(t), &nbsp;t ∈ [0; 1]<br>
+        bᵢ — поліноми Бернштейна 3-го степеня, wᵢ — ваги точок (при всіх wᵢ = 1 — звичайна крива Безьє).
+      </div>
+
+      <fieldset>
+        <legend>Характеристичний багатокутник</legend>
+        <label class="check"><input type="checkbox" id="showPolygon" checked> Показати багатокутник і опорні
+          точки</label>
+        <div class="legend">
+          <span><i style="background:#111"></i>вузли (крива через них проходить)</span>
+          <span><i style="background:#1fb04a"></i>керуючі точки</span>
+        </div>
+        <div class="hint">Поки багатокутник видимий, будь-яку точку можна перетягнути мишею — контур перебудується.
+          Вимкніть галочку, щоб побачити чистий малюнок.</div>
+        <label class="check"><input type="checkbox" id="moveHandles" checked> Вузол тягне свої керуючі точки за
+          собою</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Вага керуючих точок</legend>
+        <div class="row"><label>усі</label><input id="allW" type="range" min="0.1" max="5" step="0.05" value="1"><span
+            class="val" id="allWVal">1.00</span></div>
+        <div class="hint">Вага w керуючої (зеленої) точки: чим більша, тим сильніше крива до неї притягується. Повзунок
+          «усі» ставить однакову вагу всім керуючим точкам.</div>
+        <div class="readout">вибрана точка: <b id="selName">–</b></div>
+        <div class="row"><label>вага</label><input id="selW" type="range" min="0.05" max="5" step="0.05" value="1"
+            disabled><span class="val" id="selWVal">–</span></div>
+        <div class="hint">Клікніть по зеленій точці — її вага з'явиться тут. Вага вузлів (чорних точок) завжди 1.</div>
+        <button class="secondary" id="resetWeights">Скинути ваги</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Евклідові перетворення</legend>
+        <div class="two">
+          <div class="row"><label>dx</label><input id="tdx" type="number" value="10" step="1"></div>
+          <div class="row"><label>dy</label><input id="tdy" type="number" value="0" step="1"></div>
+        </div>
+        <button id="applyTranslate">Зсув</button>
+
+        <div class="two" style="margin-top:8px;">
+          <div class="row"><label>центр x</label><input id="rx" type="number" value="60"></div>
+          <div class="row"><label>центр y</label><input id="ry" type="number" value="52"></div>
+        </div>
+        <div class="row"><label>кут, °</label><input id="rangle" type="number" value="30" step="5"></div>
+        <button id="applyRotate">Поворот навколо центра</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Вигляд</legend>
+        <label class="check"><input type="checkbox" id="showGrid"> Сітка та осі координат</label>
+        <div class="row"><label>лінія</label><input id="lineWidth" type="range" min="0.5" max="3" step="0.1"
+            value="1"><span class="val" id="lineWidthVal">1.0</span></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Анімація: ведмедик → зірки</legend>
+        <div class="row"><label>стан</label><input id="morphS" type="range" min="0" max="1000" step="1" value="0"><span
+            class="val" id="morphSVal">0%</span></div>
+        <div class="row"><label>швидк.</label><input id="morphSpeed" type="range" min="0.1" max="1.5" step="0.05"
+            value="0.4"><span class="val" id="morphSpeedVal">0.4</span></div>
+        <label class="check"><input type="checkbox" id="morphLoop" checked> Туди й назад (зациклити)</label>
+        <div class="btns">
+          <button id="morphPlay">▶ Старт</button>
+          <button class="secondary" id="morphReset">⏮ На початок</button>
+        </div>
+        <div class="hint">Усі опорні точки лінійно переходять від ведмедика до зірок, крива Безьє йде за ними.
+          Багатокутник можна лишити видимим — буде видно, як їдуть точки. Точки малюнка не редагуються, поки анімація не
+          на початку.</div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Малюнок</legend>
+        <div class="readout">
+          контурів: <b id="roPaths">–</b><br>
+          сегментів Безьє: <b id="roSegs">–</b><br>
+          опорних точок: <b id="roPts">–</b>
+        </div>
+        <div class="btns">
+          <button class="secondary" id="reset">Скинути малюнок</button>
+          <button id="export">Зберегти точки (JSON)</button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
